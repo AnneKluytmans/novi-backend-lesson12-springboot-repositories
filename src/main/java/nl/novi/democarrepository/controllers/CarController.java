@@ -1,9 +1,11 @@
 package nl.novi.democarrepository.controllers;
 
+import jakarta.validation.Valid;
 import nl.novi.democarrepository.models.Car;
 import nl.novi.democarrepository.repositories.CarRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +22,10 @@ public class CarController {
     }
 
     @PostMapping
-    public ResponseEntity<Car> createCar(@RequestBody Car car) {
+    public ResponseEntity<?> createCar(@Valid @RequestBody Car car, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+        }
         Car savedCar = carRepository.save(car);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCar);
     }
