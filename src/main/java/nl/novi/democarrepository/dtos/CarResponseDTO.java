@@ -8,6 +8,7 @@ public class CarResponseDTO {
     private String brand;
     private String model;
     private int year;
+    private int age;
 
     public Long getId() {
         return id;

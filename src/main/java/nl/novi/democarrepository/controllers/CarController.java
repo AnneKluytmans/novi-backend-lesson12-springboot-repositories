@@ -1,10 +1,11 @@
 package nl.novi.democarrepository.controllers;
 
 import jakarta.validation.Valid;
+import nl.novi.democarrepository.dtos.CarCreateDTO;
 import nl.novi.democarrepository.dtos.CarResponseDTO;
 import nl.novi.democarrepository.mappers.CarMapper;
 import nl.novi.democarrepository.models.Car;
-import nl.novi.democarrepository.repositories.CarRepository;
+import nl.novi.democarrepository.services.CarService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,60 +18,54 @@ import java.util.Optional;
 @RequestMapping("/cars")
 public class CarController {
 
-    private final CarRepository carRepository;
+    private final CarService carService;
 
-    public CarController(CarRepository carRepository) {
-        this.carRepository = carRepository;
+    public CarController(CarService carService) {
+        this.carService = carService;
     }
 
     @PostMapping
-    public ResponseEntity<CarResponseDTO> createCar(@Valid @RequestBody Car car, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+    public ResponseEntity<?> createCar(@Valid @RequestBody CarCreateDTO carCreateDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getAllErrors());
         }
-        Car savedCar = carRepository.save(car);
+
+        Car car = CarMapper.toEntity(carCreateDTO);
+        Car savedCar = carService.saveCar(car);
         return ResponseEntity.status(HttpStatus.CREATED).body(CarMapper.toResponseDTO(savedCar));
     }
 
-    @GetMapping
-    public ResponseEntity<List<CarResponseDTO>> getCars(@RequestParam(required = false) String brand, @RequestParam(required = false) String model) {
-        List<Car> cars;
-
-        if (brand != null && model != null) {
-            cars = carRepository.findByBrandAndModel(brand, model);
-        } else if (brand != null) {
-            cars = carRepository.findByBrand(brand);
-        } else if (model != null) {
-            cars = carRepository.findByModel(model);
-        } else {
-            cars = carRepository.findAll();
-        }
-
-        return ResponseEntity.ok(CarMapper.toResponseDTOList(cars));
-    }
-
     @PutMapping("/{id}")
-    public ResponseEntity<CarResponseDTO> updateCar(@PathVariable Long id, @RequestBody Car car) {
-        Optional<Car> savedCar = carRepository.findById(id);
-
-        if (savedCar.isPresent()) {
-            Car updatedCar = savedCar.get();
-            updatedCar.setBrand(car.getBrand());
-            updatedCar.setModel(car.getModel());
-            carRepository.save(updatedCar);
+    public ResponseEntity<CarResponseDTO> updateCar(@PathVariable Long id, @RequestBody Car carDetails) {
+        Optional<Car> carOptional = carService.getCarById(id);
+        if (carOptional.isPresent()) {
+            Car updatedCar = carOptional.get();
+            updatedCar.setBrand(carDetails.getBrand());
+            updatedCar.setModel(carDetails.getModel());
+            carService.saveCar(updatedCar);
             return ResponseEntity.ok(CarMapper.toResponseDTO(updatedCar));
+        } else {
+            return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
-        if (carRepository.existsById(id)) {
-            carRepository.deleteById(id);
+        if (carService.carExists(id)) {
+            carService.deleteCar(id);
             return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CarResponseDTO>> getCars(
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String model) {
+
+        List<Car> cars = carService.getCarsByBrandAndModel(brand, model);
+        return ResponseEntity.ok(CarMapper.toResponseDTOList(cars));
     }
 
 }

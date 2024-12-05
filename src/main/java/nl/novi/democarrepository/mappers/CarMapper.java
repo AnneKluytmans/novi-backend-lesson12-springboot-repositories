@@ -1,9 +1,9 @@
 package nl.novi.democarrepository.mappers;
 
+import nl.novi.democarrepository.dtos.CarCreateDTO;
 import nl.novi.democarrepository.dtos.CarResponseDTO;
 import nl.novi.democarrepository.models.Car;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,5 +21,13 @@ public class CarMapper {
 
     public static List<CarResponseDTO> toResponseDTOList(List<Car> cars) {
         return cars.stream().map(CarMapper::toResponseDTO).collect(Collectors.toList());
+    }
+
+    public static Car toEntity(CarCreateDTO carCreateDTO) {
+        Car car = new Car();
+        car.setBrand(carCreateDTO.getBrand());
+        car.setModel(carCreateDTO.getModel());
+        car.setYear(carCreateDTO.getYear());
+        return car;
     }
 }

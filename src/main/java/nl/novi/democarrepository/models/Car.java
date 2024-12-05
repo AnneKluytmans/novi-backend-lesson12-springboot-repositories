@@ -1,6 +1,10 @@
 package nl.novi.democarrepository.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "cars")
@@ -9,8 +13,15 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Brand cannot be empty")
     private String brand;
+
+    @NotBlank(message = "Model cannot be empty")
     private String model;
+
+    @NotNull(message = "Year cannot be null")
+    @Min(value = 1886, message = "Year must be after 1886")
+    @Max(value = 2024, message = "Year must be before or equal to 2024")
     private int year;
 
     // Constructors, Getters, and Setters
