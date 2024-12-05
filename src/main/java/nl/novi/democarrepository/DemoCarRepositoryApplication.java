@@ -8,5 +8,6 @@ public class DemoCarRepositoryApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoCarRepositoryApplication.class, args);
     }
+
 }
 

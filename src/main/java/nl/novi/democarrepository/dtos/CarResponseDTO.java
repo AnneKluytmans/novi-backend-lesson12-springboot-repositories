@@ -1,25 +1,13 @@
-package nl.novi.democarrepository.models;
+package nl.novi.democarrepository.dtos;
 
-import jakarta.persistence.*;
+import java.time.LocalDate;
 
-@Entity
-@Table(name = "cars")
-public class Car {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CarResponseDTO {
+    //hier geef ja alleen de velden op die je wil teruggeven, dus bijv. geen password
     private Long id;
-
     private String brand;
     private String model;
     private int year;
-
-    // Constructors, Getters, and Setters
-    public Car() {}
-
-    public Car(String brand, String model) {
-        this.brand = brand;
-        this.model = model;
-    }
 
     public Long getId() {
         return id;
@@ -51,5 +39,9 @@ public class Car {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public int getAge() {
+        return LocalDate.now().getYear() - this.year;
     }
 }
