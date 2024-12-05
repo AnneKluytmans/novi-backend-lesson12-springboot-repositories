@@ -1,10 +1,9 @@
 package nl.novi.democarrepository.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
+
+import java.time.Year;
 
 @Entity
 @Table(name = "cars")
@@ -21,8 +20,16 @@ public class Car {
 
     @NotNull(message = "Year cannot be null")
     @Min(value = 1886, message = "Year must be after 1886")
-    @Max(value = 2024, message = "Year must be before or equal to 2024")
-    private int year;
+    private Integer year;
+
+    @AssertTrue(message = "Year must not be in the future")
+    public boolean isYearValid() {
+        if (year == null) {
+            return true;
+        }
+        int currentYear = Year.now().getValue();
+        return year <= currentYear;
+    }
 
     // Constructors, Getters, and Setters
     public Car() {}
