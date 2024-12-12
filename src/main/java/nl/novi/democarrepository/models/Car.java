@@ -2,7 +2,6 @@ package nl.novi.democarrepository.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.time.Year;
 import java.util.List;
