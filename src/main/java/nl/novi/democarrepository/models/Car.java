@@ -35,6 +35,14 @@ public class Car {
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RepairInvoice> repairInvoices;
 
+    @ManyToMany
+    @JoinTable(
+            name = "car_accessories",
+            joinColumns = @JoinColumn(name = "car_id"),
+            inverseJoinColumns = @JoinColumn(name = "accessory_id")
+    )
+    private List<Accessory> accessories;
+
     // Constructors, Getters, and Setters
     public Car() {}
 

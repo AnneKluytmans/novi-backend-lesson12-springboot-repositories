@@ -9,4 +9,3 @@ public class DemoCarRepositoryApplication {
         SpringApplication.run(DemoCarRepositoryApplication.class, args);
     }
 }
-
