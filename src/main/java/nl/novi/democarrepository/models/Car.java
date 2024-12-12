@@ -2,8 +2,10 @@ package nl.novi.democarrepository.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.time.Year;
+import java.util.List;
 
 @Entity
 @Table(name = "cars")
@@ -20,8 +22,6 @@ public class Car {
 
     @NotNull(message = "Year cannot be null")
     @Min(value = 1886, message = "Year must be after 1886")
-    private Integer year;
-
     @AssertTrue(message = "Year must not be in the future")
     public boolean isYearValid() {
         if (year == null) {
@@ -30,6 +30,10 @@ public class Car {
         int currentYear = Year.now().getValue();
         return year <= currentYear;
     }
+    private Integer year;
+
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RepairInvoice> repairInvoices;
 
     // Constructors, Getters, and Setters
     public Car() {}
