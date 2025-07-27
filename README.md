@@ -1,4 +1,4 @@
-# Car Registration API – NOVI Backend Assignment
+# Car API – NOVI Backend Assignment
 
 ## Overview
 
@@ -91,7 +91,7 @@ Sample JSON (CarRegistrationCreateDTO)
     ```
 2. Open the project in your IDE (IntelliJ IDEA)
 3. Navigate to the `CarApplication` main class.
-4. Click the green ▶️ button to run the application or use the terminal:
+4. Click the green play️ button to run the application or use the terminal:
     ```bash
     ./mvnw spring-boot:run
    ```
