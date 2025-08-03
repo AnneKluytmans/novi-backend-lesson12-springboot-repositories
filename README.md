@@ -81,21 +81,13 @@ Sample JSON (CarRegistrationCreateDTO)
 
 ## How to Run
 
-1. Clone the repository:
-   ```bash
-    git@github.com:AnneKluytmans/novi-backend-springboot-car-API.git
-    ```
-   or
+1. Clone the repository or open the project in your IDE (IntelliJ IDEA)
+2. Navigate to the `CarApplication` main class. 
+3. Click the green play️ button to run the application or use the terminal:
     ```bash
-    git clone https://github.com/AnneKluytmans/novi-backend-springboot-car-API.git 
-    ```
-2. Open the project in your IDE (IntelliJ IDEA)
-3. Navigate to the `CarApplication` main class.
-4. Click the green play️ button to run the application or use the terminal:
-    ```bash
-    ./mvnw spring-boot:run
+    mvn spring-boot:run
    ```
-5. The server will start at: `http://localhost:8080`
+4. The server will start at: `http://localhost:8080`
 
 
 ## Credits
