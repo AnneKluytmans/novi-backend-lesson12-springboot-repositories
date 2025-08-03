@@ -83,11 +83,11 @@ Sample JSON (CarRegistrationCreateDTO)
 
 1. Clone the repository:
    ```bash
-    git@github.com:AnneKluytmans/novi-backend-homework-java-pokemon-interfaces.git
+    git@github.com:AnneKluytmans/novi-backend-springboot-car-API.git
     ```
    or
     ```bash
-    git clone https://github.com/AnneKluytmans/novi-backend-homework-java-pokemon-interfaces.git 
+    git clone https://github.com/AnneKluytmans/novi-backend-springboot-car-API.git 
     ```
 2. Open the project in your IDE (IntelliJ IDEA)
 3. Navigate to the `CarApplication` main class.
